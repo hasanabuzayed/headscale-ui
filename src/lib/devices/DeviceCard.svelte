@@ -78,13 +78,14 @@
 		<span class="min-w-64 w-1/2 font-bold">
 			{#if cardEditing == false}
 				{#if device.online}
-					<span class="badge badge-xs tooltip {getBadgeColour(new Date(device.lastSeen), device.online)}" data-tip=online /> {device.id}: {device.givenName}
+					<span class="badge badge-xs tooltip {getBadgeColour(new Date(device.lastSeen), device.online)}" data-tip=online /> <span class="row-id">{device.id}:</span> {device.givenName}
 				{:else}
-					<span class="badge badge-xs tooltip {getBadgeColour(new Date(device.lastSeen), device.online)}" data-tip={timeSince(new Date(device.lastSeen))} /> {device.id}: {device.givenName}
+					<span class="badge badge-xs tooltip {getBadgeColour(new Date(device.lastSeen), device.online)}" data-tip={timeSince(new Date(device.lastSeen))} /> <span class="row-id">{device.id}:</span> {device.givenName}
 				{/if}
 			{/if}
 			<RenameDevice bind:cardEditing {device} />
 		</span>
+		<span class="row-meta">{device.ipAddresses[0] ?? ''}</span>
 		<div class="grow w-full"><DeviceTags {device} /></div>
 		<div class="grow min-w-fit">
 			<RemoveDevice {device} />
