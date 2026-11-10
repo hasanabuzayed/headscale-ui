@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { userStore } from '$lib/common/stores';
+	import { userStore, themeStore } from '$lib/common/stores';
 	import { getDevices, newDevice } from '$lib/common/apiFunctions.svelte';
 	import { alertStore } from '$lib/common/stores.js';
 	import { base } from '$app/paths';
@@ -69,6 +69,12 @@
 							{/each}
 						</select>
 					</div>
+					{#if $themeStore === 'catppuccin-mocha'}
+						<div class="flex-none pt-6 actions">
+							<button class="btn btn-sm btn-primary">register device</button>
+							<button class="btn btn-sm btn-secondary" type="button" on:click={() => { newDeviceCardVisible = false; newDeviceKey = ''; }}>cancel</button>
+						</div>
+					{:else}
 					<div class="flex-none pt-6">
 						<button
 							><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-1 inline rounded-full hover:bg-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -86,6 +92,7 @@
 							</svg></button
 						>
 					</div>
+					{/if}
 				</form>
 			</div>
 		{/if}

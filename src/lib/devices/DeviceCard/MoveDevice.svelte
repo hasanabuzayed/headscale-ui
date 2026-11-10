@@ -5,6 +5,8 @@
 	import { moveDevice, getDevices } from '$lib/common/apiFunctions.svelte';
 
 	export let device = new Device();
+	// bare: render a div instead of a table cell (for layouts that are not tables)
+	export let bare = false;
 	let deviceMoving = false;
 	let selectedUser = device.user.id;
 
@@ -21,7 +23,7 @@
 	}
 </script>
 
-<td>
+<svelte:element this={bare ? 'div' : 'td'} class={bare ? 'move' : undefined}>
 	{#if !deviceMoving}
 		{device.user.name}
 		<!-- edit symbol -->
@@ -56,4 +58,4 @@
 			>
 		</form>
 	{/if}
-</td>
+</svelte:element>

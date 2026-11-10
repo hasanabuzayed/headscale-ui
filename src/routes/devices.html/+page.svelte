@@ -51,7 +51,7 @@
 		</div>
 		<Prompt path="devices" icon={'\uf108'}>
 			{#if $apiTestStore === 'succeeded'}
-				<span>{$deviceStore.length} nodes</span>
+				<span>{$deviceStore.length} {$deviceStore.length === 1 ? 'node' : 'nodes'}</span>
 				<span class="ok">{onlineCount} online</span>
 				{#if $deviceStore.length - onlineCount > 0}<span class="bad">{$deviceStore.length - onlineCount} offline</span>{/if}
 			{/if}

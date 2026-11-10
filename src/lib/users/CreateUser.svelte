@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { alertStore } from '$lib/common/stores.js';
+	import { alertStore, themeStore } from '$lib/common/stores.js';
 	import { getUsers, newUser } from '$lib/common/apiFunctions.svelte';
 
 	// name for user creation
@@ -35,6 +35,12 @@
 			<!-- Input has to be lower case, but we will force lower case on submit -->
 			<input bind:value={newUserName} class="card-input lowercase" required pattern="[a-zA-Z0-9\-\.]+" placeholder="name" />
 		</form>
+		{#if $themeStore === 'catppuccin-mocha'}
+			<div class="actions">
+				<button class="btn btn-sm btn-primary" on:click={() => newUserAction()}>create user</button>
+				<button class="btn btn-sm btn-secondary" type="button" on:click={() => { newUserCardVisible = false; newUserName = ''; }}>cancel</button>
+			</div>
+		{:else}
 		<div>
 			<button on:click={() => newUserAction()}
 				><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline rounded-full hover:bg-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -51,5 +57,6 @@
 				</svg></button
 			>
 		</div>
+		{/if}
 	</div>
 {/if}

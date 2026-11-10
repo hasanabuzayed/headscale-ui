@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { Device } from '$lib/common/classes';
+	import { themeStore } from '$lib/common/stores';
+	import DeviceInspector from './DeviceInspector.svelte';
 	import { slide } from 'svelte/transition';
 	import DeviceRoutes from './DeviceCard/DeviceRoutes.svelte';
 	import DeviceTags from './DeviceCard/DeviceTags.svelte';
@@ -106,6 +108,11 @@
 	</div>
 	{#if cardExpanded}
 		<!-- we put a conditional on the outro transition so page changes do not trigger the animation -->
+		{#if $themeStore === 'catppuccin-mocha'}
+			<div in:slide|global out:slide|global={{ duration: cardExpanded ? 0 : 500 }} class="detail">
+				<DeviceInspector {device} />
+			</div>
+		{:else}
 		<div in:slide|global out:slide|global={{ duration: cardExpanded ? 0 : 500 }} class="mt-2 pt-2 pl-2">
 			<div class="overflow-x-auto">
 				<table class="table table-compact w-full">
@@ -139,5 +146,6 @@
 				</table>
 			</div>
 		</div>
+		{/if}
 	{/if}
 </div>

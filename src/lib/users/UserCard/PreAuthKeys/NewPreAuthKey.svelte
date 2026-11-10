@@ -2,7 +2,7 @@
 	import { newPreAuthKey, getPreauthKeys } from '$lib/common/apiFunctions.svelte';
 	import { PreAuthKey, User } from '$lib/common/classes';
 	import { fade } from 'svelte/transition';
-  import { alertStore } from '$lib/common/stores';
+  import { alertStore, themeStore } from '$lib/common/stores';
 	let currentTime = new Date();
 	let minDate = new Date(currentTime.setMinutes(currentTime.getMinutes() + 60 - currentTime.getTimezoneOffset())).toISOString().slice(0, 16);
 
@@ -37,6 +37,17 @@
 </script>
 
 <div in:fade|global class="card-pending" data-title="new key">
+{#if $themeStore === 'catppuccin-mocha'}
+	<form class="keyform" on:submit|preventDefault={NewPreAuthKeyAction}>
+		<label class="field">expires<input bind:value={expiry} class="card-input" type="datetime-local" required min={minDate} /></label>
+		<label class="check"><input type="checkbox" bind:checked={reusable} />reusable</label>
+		<label class="check"><input type="checkbox" bind:checked={ephemeral} />ephemeral</label>
+		<span class="actions">
+			<button class="btn btn-sm btn-primary">create key</button>
+			<button on:click={() => (newPreAuthKeyShow = false)} type="button" class="btn btn-sm btn-secondary">cancel</button>
+		</span>
+	</form>
+{:else}
 	<form on:submit|preventDefault={NewPreAuthKeyAction}>
 		<table class="table table-compact w-full">
 			<tbody>
@@ -67,4 +78,5 @@
 			class="btn btn-sm m-1 btn-secondary capitalize">Cancel</button
 		>
 	</form>
+{/if}
 </div>

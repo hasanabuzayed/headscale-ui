@@ -71,6 +71,7 @@
 		<RolloverApi {apiStatus} />
 	</div>
 	<p class="text-xs text-base-content text-italics mb-8">Generate an API key for your headscale instance and place it here.</p>
+	<div class="actions">
 	{#if apiStatus != 'succeeded'}
 		<button on:click={() => {TestServerSettings()}} class="btn btn-sm btn-secondary capitalize" type="button">Save API Key</button>
 	{:else}
@@ -88,4 +89,5 @@
 			<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 		</svg>
 	{/if}
+	</div>
 </form>

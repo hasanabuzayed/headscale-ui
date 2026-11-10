@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { themeStore } from '$lib/common/stores';
+	import UserInspector from './UserInspector.svelte';
 	import { fade, slide } from 'svelte/transition';
 	import EditUser from '$lib/users/UserCard/RenameUser.svelte';
 	import RemoveUser from '$lib/users/UserCard/RemoveUser.svelte';
@@ -35,6 +37,11 @@
 	</div>
 	{#if cardExpanded}
 		<!-- we put a conditional on the outro transition so page changes do not trigger the animation -->
+		{#if $themeStore === 'catppuccin-mocha'}
+			<div in:slide|global out:slide|global={{ duration: cardExpanded ? 0 : 500 }} class="detail">
+				<UserInspector {user} />
+			</div>
+		{:else}
 		<div in:slide|global out:slide|global={{ duration: cardExpanded ? 0 : 500 }} class="mt-2 pt-2 pl-2">
 			<div class="overflow-x-auto">
 				<table class="table table-compact w-full">
@@ -54,5 +61,6 @@
 				</table>
 			</div>
 		</div>
+		{/if}
 	{/if}
 </div>

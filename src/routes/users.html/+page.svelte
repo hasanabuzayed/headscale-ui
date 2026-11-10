@@ -1,7 +1,7 @@
 <!-- typescript -->
 <script lang="ts">
 	import { base } from '$app/paths';
-	import { getUsers } from '$lib/common/apiFunctions.svelte';
+	import { getDevices, getUsers } from '$lib/common/apiFunctions.svelte';
 	import { apiTestStore, themeStore, userFilterStore, userStore } from '$lib/common/stores';
 	import CreateUser from '$lib/users/CreateUser.svelte';
 	import SearchUsers from '$lib/users/SearchUsers.svelte';
@@ -26,6 +26,8 @@
 	onMount(async () => {
 		// update user list
 		getUsers();
+		// the catppuccin-mocha user drawer lists each user's nodes
+		if ($themeStore === 'catppuccin-mocha') getDevices().catch(() => {});
 		// load the page
 		componentLoaded = true;
 	});
@@ -38,7 +40,7 @@
 			<h1 class="text-2xl bold text-primary">User View</h1>
 		</div>
 		<Prompt path="users" icon={'\uf007'}>
-			{#if $apiTestStore === 'succeeded'}<span>{$userStore.length} users</span>{/if}
+			{#if $apiTestStore === 'succeeded'}<span>{$userStore.length} {$userStore.length === 1 ? 'user' : 'users'}</span>{/if}
 		</Prompt>
 		{#if $apiTestStore === 'succeeded'}
 			<!-- instantiate user based components -->
