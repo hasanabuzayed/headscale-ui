@@ -5,6 +5,8 @@
 	import DevSettings from '$lib/settings/DevSettings.svelte';
 	import ServerSettings from '$lib/settings/ServerSettings.svelte';
 	import ThemeSettings from '$lib/settings/ThemeSettings.svelte';
+	import Prompt from '$lib/common/Prompt.svelte';
+	import { themeStore } from '$lib/common/stores.js';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
@@ -21,6 +23,7 @@
 <!-- html -->
 <body>
 	<div hidden={!componentLoaded} in:fade|global class="px-4 py-4 w-4/5 max-w-screen-lg">
+		<Prompt path="settings" icon={'\uf013'}><span>{$themeStore}</span></Prompt>
 		<ServerSettings />
 		<div class="p-4" />
 		<ThemeSettings />

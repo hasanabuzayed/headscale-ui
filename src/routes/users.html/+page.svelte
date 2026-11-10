@@ -7,6 +7,7 @@
 	import SearchUsers from '$lib/users/SearchUsers.svelte';
 	import SortUsers from '$lib/users/SortUsers.svelte';
 	import UserCard from '$lib/users/UserCard.svelte';
+	import Prompt from '$lib/common/Prompt.svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
@@ -35,6 +36,9 @@
 		<div class="px-4 pt-4">
 			<h1 class="text-2xl bold text-primary">User View</h1>
 		</div>
+		<Prompt path="users" icon={'\uf007'}>
+			{#if $apiTestStore === 'succeeded'}<span>{$userStore.length} users</span>{/if}
+		</Prompt>
 		{#if $apiTestStore === 'succeeded'}
 			<!-- instantiate user based components -->
 			<table>

@@ -8,10 +8,13 @@
 	import DeviceCard from '$lib/devices/DeviceCard.svelte';
 	import SearchDevices from '$lib/devices/SearchDevices.svelte';
 	import SortDevices from '$lib/devices/SortDevices.svelte';
+	import Prompt from '$lib/common/Prompt.svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	let newDeviceKey = '';
+
+	$: onlineCount = $deviceStore.filter((d) => d.online).length;
 
 	let newDeviceCardVisible = false;
 
@@ -45,6 +48,13 @@
 		<div in:fade|global class="px-4 pt-4">
 			<h1 class="text-2xl bold text-primary">Device View</h1>
 		</div>
+		<Prompt path="devices" icon={'\uf108'}>
+			{#if $apiTestStore === 'succeeded'}
+				<span>{$deviceStore.length} nodes</span>
+				<span class="ok">{onlineCount} online</span>
+				{#if $deviceStore.length - onlineCount > 0}<span class="bad">{$deviceStore.length - onlineCount} offline</span>{/if}
+			{/if}
+		</Prompt>
 		{#if $apiTestStore === 'succeeded'}
 			<!-- instantiate device based components -->
 			<table>
@@ -64,6 +74,7 @@
 
 			<CreateDevice bind:newDeviceCardVisible bind:newDeviceKey />
 
+			<div class="list-head" aria-hidden="true"><span>name</span><span>address</span><span>tags</span></div>
 			<div class="flex flex-col gap-2">
 				{#each $deviceStore as device}
 					{#if $deviceFilterStore.includes(device)}
