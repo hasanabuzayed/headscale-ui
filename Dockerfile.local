@@ -1,0 +1,5 @@
+# Local image: this working tree's build output on top of the stock image.
+#   npm ci && npm run build && docker build -f Dockerfile.local -t headscale-ui:catppuccin .
+# (docker/production/dockerfile clones upstream instead of using this tree.)
+FROM ghcr.io/gurucomputing/headscale-ui:latest
+COPY --chown=1000:102 build /web

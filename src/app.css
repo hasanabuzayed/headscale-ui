@@ -22,3 +22,76 @@
 .card-select {
   @apply shadow border rounded w-64 py-1 px-3 bg-base-100 text-base-content text-sm leading-tight focus:outline-2;
 }
+
+/* catppuccin-mocha: terminal look (palette lives in tailwind.config.cjs).
+   Scoped to the theme so the other themes are untouched. */
+@font-face {
+  font-family: "FiraCode Nerd Font";
+  font-weight: 400;
+  src: local("FiraCode Nerd Font"), url("./lib/fonts/FiraCodeNerdFont-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "FiraCode Nerd Font";
+  font-weight: 700;
+  src: local("FiraCode Nerd Font Bold"), url("./lib/fonts/FiraCodeNerdFont-Bold.woff2") format("woff2");
+}
+
+html:has([data-theme="catppuccin-mocha"]) {
+  background: #1e1e2e;
+  scrollbar-width: thin;
+  scrollbar-color: #585b70 #181825;
+}
+
+[data-theme="catppuccin-mocha"] {
+  font-family: "FiraCode Nerd Font", "FiraCode Nerd Font Mono", ui-monospace, Menlo, monospace;
+  font-variant-ligatures: normal;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+
+  & ::selection { background: rgb(203 166 247 / 0.3); }
+  & :is(.rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl) { border-radius: 0; }
+
+  & nav { border-right: 1px solid #45475a; box-shadow: none; }
+  & nav .nav-item { border-radius: 0; border-left: 2px solid transparent; }
+  & nav .nav-item:hover { background: #313244; border-left-color: #cba6f7; }
+  & nav .nav-item svg { stroke: currentColor; }
+
+  & h1 { font-weight: 700; letter-spacing: -0.01em; }
+  & h1::before { content: "❯ "; color: #a6e3a1; font-weight: 400; }
+  & label { color: #89b4fa; }
+  & label::before { content: "# "; color: #6c7086; }
+  & p { color: #a6adc8; }
+  & p::before { content: "// "; color: #6c7086; }
+
+  & :is(.form-input, .card-input, .card-select, select, .select) {
+    background-color: #181825;
+    border: 1px solid #45475a;
+    box-shadow: none;
+    caret-color: #a6e3a1;
+    caret-shape: block;
+  }
+  & .form-input::placeholder { color: #6c7086; }
+  & :is(.form-input, .card-input, .card-select, select, .select):focus {
+    outline: none;
+    border-color: #cba6f7;
+    box-shadow: 0 0 0 1px #cba6f7;
+  }
+  & select option { background: #181825; }
+
+  & .btn { box-shadow: none; text-transform: none; font-weight: 700; background-color: transparent; border: 1px solid currentColor; }
+  & .btn-primary { color: #cba6f7; }
+  & .btn-secondary { color: #89b4fa; }
+  & .btn:hover:not([disabled]) { color: #11111b; }
+  & .btn-primary:hover:not([disabled]) { background-color: #cba6f7; border-color: #cba6f7; }
+  & .btn-secondary:hover:not([disabled]) { background-color: #89b4fa; border-color: #89b4fa; }
+  & .btn:disabled { color: #585b70; background: transparent; border-color: #313244; }
+
+  & div.bg-base-200 { border: 1px solid #313244; }
+  & .link { color: #89dceb; text-decoration: underline dotted; }
+  & .hover\:bg-gray-300:hover { background-color: #313244; }
+  & .toggle { border-color: #585b70; }
+  & .toggle:checked { background-color: #a6e3a1; border-color: #a6e3a1; }
+
+  /* show/hide key icon: its anchor assumes the stock font's button widths */
+  & button.absolute.right-40 { margin-right: 1.75rem; }
+}
