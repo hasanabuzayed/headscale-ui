@@ -3,6 +3,7 @@
 	import Nav from '$lib/common/nav.svelte';
 	import Alert from '$lib/common/Alert.svelte';
 	import Stores from '$lib/common/Stores.svelte';
+	import StatusBar from '$lib/common/StatusBar.svelte';
 	import { themeStore } from '$lib/common/stores.js'
 	
 
@@ -21,9 +22,10 @@
 			<!-- header -->
 			<!-- <div class="flex bg-gray-100 h-12 p-4">Header</div> -->
 			<!-- content -->
-			<div>
+			<div class="content">
 				<slot />
 			</div>
+			<StatusBar />
 		</div>
 	</div>
 	<!-- <div class="flex">Footer</div> -->

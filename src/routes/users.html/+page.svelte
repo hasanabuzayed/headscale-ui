@@ -2,11 +2,12 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { getUsers } from '$lib/common/apiFunctions.svelte';
-	import { apiTestStore, userFilterStore, userStore } from '$lib/common/stores';
+	import { apiTestStore, themeStore, userFilterStore, userStore } from '$lib/common/stores';
 	import CreateUser from '$lib/users/CreateUser.svelte';
 	import SearchUsers from '$lib/users/SearchUsers.svelte';
 	import SortUsers from '$lib/users/SortUsers.svelte';
 	import UserCard from '$lib/users/UserCard.svelte';
+	import ApiError from '$lib/common/ApiError.svelte';
 	import Prompt from '$lib/common/Prompt.svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -57,6 +58,12 @@
 			</table>
 			<CreateUser bind:newUserCardVisible />
 
+			{#if $themeStore === 'catppuccin-mocha' && $userStore.length === 0}
+				<div class="term">
+					<p>no users yet</p>
+					<p><span class="k hint">hint:</span> press <b>+ new user</b> to create the first one</p>
+				</div>
+			{/if}
 			<div class="flex flex-col gap-2">
 				{#each $userStore as user}
 					{#if $userFilterStore.includes(user)}
@@ -66,9 +73,7 @@
 			</div>
 		{/if}
 		{#if $apiTestStore === 'failed'}
-			<div in:fade|global class="max-w-lg  mx-auto p-4 border-4 text-sm text-base-content shadow-lg text-center">
-				<p>API test did not succeed.<br />Headscale might be down or API settings may need to be set<br />change server settings in the <a href="{base}/settings.html" class="link link-primary">settings</a> page</p>
-			</div>
+			<ApiError />
 		{/if}
 	</div>
 {/if}

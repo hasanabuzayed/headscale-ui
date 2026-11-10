@@ -30,7 +30,7 @@
 
 <!-- html -->
 {#if newUserCardVisible}
-	<div in:fade|global out:fade|global={{ duration: newUserCardVisible ? 0 : 500 }} class="card-pending">
+	<div in:fade|global out:fade|global={{ duration: newUserCardVisible ? 0 : 500 }} class="card-pending" data-title="new user">
 		<form on:submit|preventDefault={newUserAction} class="relative" bind:this={newUserForm}>
 			<!-- Input has to be lower case, but we will force lower case on submit -->
 			<input bind:value={newUserName} class="card-input lowercase" required pattern="[a-zA-Z0-9\-\.]+" placeholder="name" />

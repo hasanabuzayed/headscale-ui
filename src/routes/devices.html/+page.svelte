@@ -3,11 +3,12 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import { getDevices, getUsers } from '$lib/common/apiFunctions.svelte';
-	import { apiTestStore, deviceFilterStore, deviceStore } from '$lib/common/stores.js';
+	import { apiTestStore, deviceFilterStore, deviceStore, themeStore, URLStore } from '$lib/common/stores.js';
 	import CreateDevice from '$lib/devices/CreateDevice.svelte';
 	import DeviceCard from '$lib/devices/DeviceCard.svelte';
 	import SearchDevices from '$lib/devices/SearchDevices.svelte';
 	import SortDevices from '$lib/devices/SortDevices.svelte';
+	import ApiError from '$lib/common/ApiError.svelte';
 	import Prompt from '$lib/common/Prompt.svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -75,6 +76,14 @@
 			<CreateDevice bind:newDeviceCardVisible bind:newDeviceKey />
 
 			<div class="list-head" aria-hidden="true"><span>name</span><span>address</span><span>tags</span></div>
+			{#if $themeStore === 'catppuccin-mocha' && $deviceStore.length === 0}
+				<div class="term">
+					<p>no devices registered yet</p>
+					<p><span class="k hint">hint:</span> on a client, run</p>
+					<code class="cmd">tailscale up --login-server {$URLStore}</code>
+					<p>then register its key with <b>+ new device</b></p>
+				</div>
+			{/if}
 			<div class="flex flex-col gap-2">
 				{#each $deviceStore as device}
 					{#if $deviceFilterStore.includes(device)}
@@ -84,9 +93,7 @@
 			</div>
 		{/if}
 		{#if $apiTestStore === 'failed'}
-			<div in:fade|global class="max-w-lg  mx-auto p-4 border-4 text-sm text-base-content shadow-lg text-center">
-				<p>API test did not succeed.<br />Headscale might be down or API settings may need to be set<br />change server settings in the <a href="{base}/settings.html" class="link link-primary">settings</a> page</p>
-			</div>
+			<ApiError />
 		{/if}
 	</div>
 {/if}

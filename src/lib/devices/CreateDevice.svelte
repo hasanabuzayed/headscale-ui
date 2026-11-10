@@ -44,7 +44,7 @@
 <!-- html -->
 
 {#if newDeviceCardVisible == true}
-	<div in:fade|global out:fade|global={{ duration: newDeviceCardVisible ? 0 : 500 }} class="p-2 max-w-screen-lg border border-dashed border-base-content mx-4 rounded-md text-sm text-base-content shadow mb-10">
+	<div in:fade|global out:fade|global={{ duration: newDeviceCardVisible ? 0 : 500 }} class="pane p-2 max-w-screen-lg border border-dashed border-base-content mx-4 rounded-md text-sm text-base-content shadow mb-10" data-title="new device">
 		<div class="tabs">
 			{#each tabs as tab, index}
 				<button class="tab tab-bordered h-fit w-1/3" class:tab-active={activeTab == index} on:click={() => (activeTab = index)}>{tab}</button>
