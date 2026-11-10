@@ -24,7 +24,10 @@
 }
 
 /* catppuccin-mocha: terminal look (palette lives in tailwind.config.cjs).
-   Scoped to the theme so the other themes are untouched. */
+   Scoped to the theme so the other themes are untouched.
+   Tokens: base #1e1e2e  mantle #181825  surface0 #313244  surface1 #45475a
+           overlay1 #7f849c (muted)  text #cdd6f4  mauve #cba6f7 (actions)
+           blue #89b4fa (labels)  green/yellow/red = status */
 @font-face {
   font-family: "FiraCode Nerd Font";
   font-weight: 400;
@@ -49,44 +52,113 @@ html:has([data-theme="catppuccin-mocha"]) {
   -webkit-font-smoothing: antialiased;
 
   & ::selection { background: rgb(203 166 247 / 0.3); }
+  & :focus-visible { outline: 2px solid #cba6f7; outline-offset: 2px; }
   & :is(.rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl) { border-radius: 0; }
 
-  & nav { border-right: 1px solid #45475a; box-shadow: none; }
-  & nav .nav-item { border-radius: 0; border-left: 2px solid transparent; }
-  & nav .nav-item:hover { background: #313244; border-left-color: #cba6f7; }
+  /* sidebar: the current page reads as a tab that joins the content */
+  & nav { border-right: 1px solid #313244; box-shadow: none; }
+  & nav .nav-item { border-radius: 0; border-left: 2px solid transparent; color: #a6adc8; }
   & nav .nav-item svg { stroke: currentColor; }
+  & nav .nav-item:hover { background: #313244; color: #cdd6f4; }
+  & nav a[aria-current="page"] { background: #1e1e2e; color: #cba6f7; border-left-color: #cba6f7; }
 
-  & h1 { font-weight: 700; letter-spacing: -0.01em; }
+  /* type */
+  & h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
   & h1::before { content: "❯ "; color: #a6e3a1; font-weight: 400; }
   & label { color: #89b4fa; }
-  & label::before { content: "# "; color: #6c7086; }
-  & p { color: #a6adc8; }
-  & p::before { content: "// "; color: #6c7086; }
+  & p.text-xs { color: #7f849c; }
+  & p.text-xs::before { content: "// "; }
 
-  & :is(.form-input, .card-input, .card-select, select, .select) {
+  /* inputs */
+  & :is(.form-input, .card-input, .card-select, .input, select, .select) {
     background-color: #181825;
     border: 1px solid #45475a;
     box-shadow: none;
     caret-color: #a6e3a1;
     caret-shape: block;
   }
-  & .form-input::placeholder { color: #6c7086; }
-  & :is(.form-input, .card-input, .card-select, select, .select):focus {
+  & .form-input::placeholder, & .input::placeholder { color: #6c7086; }
+  & :is(.form-input, .card-input, .card-select, .input, select, .select):focus {
     outline: none;
     border-color: #cba6f7;
     box-shadow: 0 0 0 1px #cba6f7;
   }
   & select option { background: #181825; }
 
-  & .btn { box-shadow: none; text-transform: none; font-weight: 700; background-color: transparent; border: 1px solid currentColor; }
+  /* borders that Tailwind leaves white, status icons with hard-coded colours */
+  & :is(.border, .border-base-content) { border-color: #45475a; }
+  & svg[stroke="green"] { stroke: #a6e3a1; }
+  & svg[stroke="red"] { stroke: #f38ba8; }
+  & .checkbox { border-color: #6c7086; accent-color: #cba6f7; }
+  & .checkbox:checked { background-color: #cba6f7; border-color: #cba6f7; color: #11111b; }
+
+  /* buttons: outlined, fill on hover (real buttons only, not tag chips) */
+  & .btn { box-shadow: none; text-transform: none; font-weight: 700; background-color: transparent; border-width: 1px; border-color: currentColor; transition: background-color 0.1s, color 0.1s; }
   & .btn-primary { color: #cba6f7; }
   & .btn-secondary { color: #89b4fa; }
-  & .btn:hover:not([disabled]) { color: #11111b; }
-  & .btn-primary:hover:not([disabled]) { background-color: #cba6f7; border-color: #cba6f7; }
-  & .btn-secondary:hover:not([disabled]) { background-color: #89b4fa; border-color: #89b4fa; }
+  & button.btn:hover:not([disabled]) { color: #11111b; }
+  & button.btn-primary:hover:not([disabled]) { background-color: #cba6f7; border-color: #cba6f7; }
+  & button.btn-secondary:hover:not([disabled]) { background-color: #89b4fa; border-color: #89b4fa; }
   & .btn:disabled { color: #585b70; background: transparent; border-color: #313244; }
 
-  & div.bg-base-200 { border: 1px solid #313244; }
+  /* sort toggle: one joined control, the active choice is lit */
+  & .btn-group .btn { margin-left: -1px; color: #7f849c; border-color: #45475a; }
+  & .btn-group .btn:hover:not(.btn-active) { background: #313244; color: #cdd6f4; border-color: #45475a; }
+  & .btn-group .btn.btn-active { background: rgb(203 166 247 / 0.14); color: #cba6f7; border-color: #cba6f7; position: relative; }
+
+  /* toolbar icons (sort direction, search) */
+  & span.flex > button.mx-1, & svg.ml-3.mr-1 { color: #7f849c; }
+  & span.flex > button.mx-1:hover { color: #cba6f7; }
+
+  /* the list: one flat panel, rows split by hairlines.
+     The left gutter shows device status (the dot sits inside the row). */
+  & .card-primary {
+    margin-bottom: -1px;
+    padding: 0.4rem 0.5rem;
+    background: #181825;
+    border: 1px solid #313244;
+    border-left: 2px solid #313244;
+    box-shadow: none;
+    transition: background-color 0.1s;
+  }
+  & .flex-col.gap-2 { gap: 0; }
+  & .card-primary:hover { background: #1b1b2b; }
+  & .card-primary > * { border-color: #313244; }
+  & .card-primary:has(.badge.bg-success) { border-left-color: #a6e3a1; }
+  & .card-primary:has(.badge.bg-warning) { border-left-color: #f9e2af; }
+  & .card-primary:has(.badge.bg-error) { border-left-color: #f38ba8; }
+  & .card-primary button:not(.btn) { color: #7f849c; transition: color 0.1s; }
+  & .card-primary button:not(.btn):hover { color: #cdd6f4; }
+  & .card-primary button:has(path[d^="M19 7l"]):hover { color: #f38ba8; }
+  & .card-pending { border-color: #585b70; }
+
+  /* status dot */
+  & .badge { width: 0.5rem; height: 0.5rem; padding: 0; border: 0; border-radius: 9999px; margin-right: 0.4rem; vertical-align: middle; }
+  & .badge.bg-success { box-shadow: 0 0 6px #a6e3a1; }
+  & .badge.bg-warning { box-shadow: 0 0 6px #f9e2af; }
+  & .badge.bg-error { box-shadow: 0 0 6px #f38ba8; opacity: 0.75; }
+
+  /* tags: quiet chips; only "+ tag" is a control */
+  & .card-primary span.btn { background: rgb(203 166 247 / 0.12); border-color: transparent; color: #cba6f7; }
+  & .card-primary span.btn button { color: #7f849c; }
+  & .card-primary span.btn button:hover { color: #f38ba8; }
+  & .btn.border-dotted { background: transparent; border-color: #6c7086; color: #a6adc8; opacity: 1; }
+  & .btn.border-dotted:hover { border-color: #cba6f7; color: #cba6f7; background: transparent; }
+
+  /* route pills */
+  & .btn.bg-success { background: rgb(166 227 161 / 0.14); color: #a6e3a1; border-color: transparent; }
+  & .btn.bg-secondary { background: rgb(137 180 250 / 0.14); color: #89b4fa; border-color: transparent; }
+  & .btn.bg-error { background: rgb(243 139 168 / 0.14); color: #f38ba8; border-color: transparent; }
+  & .btn.bg-warning { background: rgb(249 226 175 / 0.14); color: #f9e2af; border-color: transparent; }
+  & .btn.bg-primary { background: rgb(203 166 247 / 0.14); color: #cba6f7; border-color: transparent; }
+  & .btn.bg-accent { background: rgb(148 226 213 / 0.14); color: #94e2d5; border-color: transparent; }
+  & button.btn.bg-secondary:hover { background: #89b4fa; color: #11111b; }
+
+  /* expanded details */
+  & .table { font-size: 0.8125rem; }
+  & .table :where(th, td) { background: transparent; padding: 0.4rem 0.75rem; border-color: #313244; }
+  & .table th { color: #89b4fa; font-weight: 700; white-space: nowrap; }
+
   & .link { color: #89dceb; text-decoration: underline dotted; }
   & .hover\:bg-gray-300:hover { background-color: #313244; }
   & .toggle { border-color: #585b70; }
@@ -94,4 +166,8 @@ html:has([data-theme="catppuccin-mocha"]) {
 
   /* show/hide key icon: its anchor assumes the stock font's button widths */
   & button.absolute.right-40 { margin-right: 1.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="catppuccin-mocha"] * { transition: none !important; }
 }
